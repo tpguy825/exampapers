@@ -1,0 +1,122 @@
+{
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "papers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "uid": {
+            "type": "string",
+            "pattern": "^[0-9A-HJKMNP-TV-Z]{26}$"
+          },
+          "code": {
+            "type": "string"
+          },
+          "year": {
+            "type": "integer",
+            "exclusiveMinimum": 2000,
+            "exclusiveMaximum": 2100
+          },
+          "month": {
+            "type": "string",
+            "enum": [
+              "jan",
+              "feb",
+              "mar",
+              "apr",
+              "may",
+              "jun",
+              "jul",
+              "aug",
+              "sep",
+              "oct",
+              "nov",
+              "dec"
+            ]
+          },
+          "difficulty": {
+            "type": "string",
+            "enum": [
+              "higher",
+              "foundation",
+              "na"
+            ]
+          },
+          "level": {
+            "type": "string",
+            "enum": [
+              "gcse"
+            ]
+          },
+          "subject": {
+            "type": "string",
+            "enum": [
+              "maths",
+              "english",
+              "bio-c",
+              "bio-s",
+              "chem-c",
+              "chem-s",
+              "phy-c",
+              "phy-s",
+              "comp",
+              "french"
+            ]
+          },
+          "board": {
+            "type": "string",
+            "enum": [
+              "aqa",
+              "edexcel",
+              "ocr"
+            ]
+          },
+          "paper": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "exclusiveMaximum": 10
+          },
+          "paperpdfUrl": {
+            "type": "string",
+            "format": "uri"
+          },
+          "mspdfUrl": {
+            "type": "string",
+            "format": "uri"
+          },
+          "paperpdf": {
+            "type": "string"
+          },
+          "mspdf": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "uid",
+          "code",
+          "year",
+          "month",
+          "difficulty",
+          "level",
+          "subject",
+          "board",
+          "paper",
+          "paperpdfUrl",
+          "mspdfUrl",
+          "paperpdf",
+          "mspdf"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "papers"
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}
