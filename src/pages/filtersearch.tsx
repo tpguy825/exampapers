@@ -108,6 +108,8 @@ export default function FilterSearch() {
 					</option>
 					{papers
 						.map((p) => p.year)
+						// sort
+						.sort((a, b) => b - a)
 						.filter((v, i, a) => a.indexOf(v) === i)
 						.map((y) => (
 							<option value={y}>{y}</option>
@@ -146,6 +148,7 @@ export default function FilterSearch() {
 					</option>
 					{papers
 						.map((p) => p.paper)
+						.sort((a, b) => b - a)
 						.filter((v, i, a) => a.indexOf(v) === i)
 						.map((p) => (
 							<option value={p}>Paper {p}</option>
