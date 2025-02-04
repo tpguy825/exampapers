@@ -390,6 +390,21 @@
       "paperpdf": "/papers/01JK3XPXVDG667DJR41X47HEZX-paper.pdf",
       "mspdf": "/papers/01JK3XPXVDG667DJR41X47HEZX-ms.pdf",
       "uid": "01JK3XPXVDG667DJR41X47HEZX"
+    },
+    {
+      "code": "JUN2083002H",
+      "year": 2020,
+      "month": "jun",
+      "difficulty": "higher",
+      "level": "gcse",
+      "subject": "maths",
+      "board": "aqa",
+      "paper": 2,
+      "paperpdfUrl": "https://filestore.aqa.org.uk/sample-papers-and-mark-schemes/2020/november/AQA-83002H-QP-NOV20.PDF",
+      "mspdfUrl": "https://filestore.aqa.org.uk/sample-papers-and-mark-schemes/2020/november/AQA-83002H-W-MS-NOV20.PDF",
+      "paperpdf": "/papers/01JK8GFYFK66XMKQG3XGJ0WNTP-paper.pdf",
+      "mspdf": "/papers/01JK8GFYFK66XMKQG3XGJ0WNTP-ms.pdf",
+      "uid": "01JK8GFYFK66XMKQG3XGJ0WNTP"
     }
   ]
 }
