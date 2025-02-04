@@ -68,7 +68,6 @@ const paper: Paper = {
 	subject: await zodInput("Subject: ", schema.element.shape.subject),
 	board: await zodInput("Board: ", schema.element.shape.board),
 	paper: await zodInput("Paper number (e.g. paper 1, paper 2): ", schema.element.shape.paper, Number),
-	marks: await zodInput("Total marks: ", schema.element.shape.marks, Number),
 	paperpdfUrl,
 	mspdfUrl,
 	paperpdf: "/papers/" + paperId + "-paper.pdf",

@@ -80,6 +80,26 @@ export default function FilterSearch() {
 					))}
 				</select> */}
 				<select
+					name="paper"
+					hidden={subject === null}
+					class="mr-2 cursor-pointer rounded border border-zinc-700 bg-zinc-950 px-2 py-1 text-xl focus:bg-zinc-900 focus:outline-none"
+					onChange={(e) =>
+						setPaperNum(
+							e.currentTarget.value !== "" ? (Number(e.currentTarget.value) as Paper["paper"]) : null,
+						)
+					}>
+					<option value="" selected>
+						Select paper
+					</option>
+					{papers
+						.map((p) => p.paper)
+						.sort((a, b) => b - a)
+						.filter((v, i, a) => a.indexOf(v) === i)
+						.map((p) => (
+							<option value={p}>Paper {p}</option>
+						))}
+				</select>
+				<select
 					name="difficulty"
 					hidden={subject === null}
 					class="mr-2 cursor-pointer rounded border border-zinc-700 bg-zinc-950 px-2 py-1 text-xl focus:bg-zinc-900 focus:outline-none"
@@ -131,27 +151,6 @@ export default function FilterSearch() {
 						.filter((v, i, a) => a.indexOf(v) === i)
 						.map((m) => (
 							<option value={m}>{m}</option>
-						))}
-				</select>
-
-				<select
-					name="paper"
-					hidden={subject === null}
-					class="mr-2 cursor-pointer rounded border border-zinc-700 bg-zinc-950 px-2 py-1 text-xl focus:bg-zinc-900 focus:outline-none"
-					onChange={(e) =>
-						setPaperNum(
-							e.currentTarget.value !== "" ? (Number(e.currentTarget.value) as Paper["paper"]) : null,
-						)
-					}>
-					<option value="" selected>
-						Select paper
-					</option>
-					{papers
-						.map((p) => p.paper)
-						.sort((a, b) => b - a)
-						.filter((v, i, a) => a.indexOf(v) === i)
-						.map((p) => (
-							<option value={p}>Paper {p}</option>
 						))}
 				</select>
 
