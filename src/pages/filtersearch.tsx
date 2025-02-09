@@ -14,7 +14,7 @@ export default function FilterSearch() {
 	const [papernum, setPaperNum] = useState<Paper["paper"] | null>(null);
 	const [code, setCode] = useState<string | null>(null);
 
-	const [loading, setLoading] = useState(false);
+	const [loading, setLoading] = useState(true);
 	const [papers, setPapers] = useState<Schema>([]);
 
 	useEffect(() => {
