@@ -1,19 +1,25 @@
 import { type Schema } from "../../scripts/schema";
 import { useEffect, useState } from "preact/hooks";
-import { subjectKeys, boards, subjects } from "../../scripts/schema-types";
+import { subjectKeys, boards, subjects, difficulties } from "../../scripts/schema-types";
 
 type Paper = Schema[number];
-const hosturl =
-	"https://raw.githubusercontent.com/tpguy825/exampapers/refs/heads/main/public";
+const hosturl = "https://raw.githubusercontent.com/tpguy825/exampapers/refs/heads/main/public";
+
+function is<T>(a: string | null, b: readonly T[]) {
+	// typecript moment              \/ stupid
+	console.log(a, b, b.includes(a as T));
+	return (a !== null && b.includes(a as T)) ? (a as T) : null;
+}
 
 export default function FilterSearch() {
-	const [board, setBoard] = useState<Paper["board"] | null>(null);
-	const [subject, setSubject] = useState<Paper["subject"] | null>(null);
+	const url = new URL(window.location.href);
+	const [board, setBoard] = useState(is<Paper["board"]>(url.searchParams.get("b"), boards));
+	const [subject, setSubject] = useState(is<Paper["subject"]>(url.searchParams.get("s"), subjectKeys));
 	// const [level, setLevel] = useState<Paper["level"] | null>(null);
-	const [difficulty, setDifficulty] = useState<Paper["difficulty"] | null>(null);
+	const [difficulty, setDifficulty] = useState(is<Paper["difficulty"]>(url.searchParams.get("d"), difficulties));
 	const [year, setYear] = useState<Paper["year"] | null>(null);
 	const [papernum, setPaperNum] = useState<Paper["paper"] | null>(null);
-	const [code, setCode] = useState<string | null>(null);
+	const [code, setCode] = useState<string | null>(url.searchParams.get("c"));
 
 	const [loading, setLoading] = useState(true);
 	const [papers, setPapers] = useState<Schema>([]);
@@ -30,11 +36,21 @@ export default function FilterSearch() {
 			.then((s) => {
 				setPapers(s.papers);
 				setLoading(false);
+
+				if (url.searchParams.has("y")) {
+					const y = Number(url.searchParams.get("y"));
+					if (papers.map((p) => p.year).includes(y)) setYear(y);
+				}
+
+				if (url.searchParams.has("p")) {
+					const p = Number(url.searchParams.get("p"));
+					if (papers.map((p) => p.paper).includes(p)) setPaperNum(p);
+				}
 			});
 	}, []);
 
 	const results = papers.filter((paper) => {
-		console.log({ board, subject, difficulty, year, papernum, code }, paper);
+		// console.log({ board, subject, difficulty, year, papernum, code }, paper);
 		if (board !== null && paper.board !== board) return false;
 		if (subject !== null && paper.subject !== subject) return false;
 		// if (level !== null && paper.level !== level) return false;
@@ -45,17 +61,38 @@ export default function FilterSearch() {
 		return true;
 	});
 
-	console.log(results, papers);
+	const pushHistory = (obj: Record<string, string | number>) => {
+		const url = new URL(window.location.href);
+		for (const k of url.searchParams.keys()) {
+			url.searchParams.delete(k);
+		}
+		for (const [k, v] of Object.entries({
+			b: board,
+			s: subject,
+			d: difficulty,
+			y: year,
+			p: papernum,
+			c: code,
+		}).filter(([, v]) => v !== null)) {
+			url.searchParams.set(k, String(v));
+		}
+		for (const [k, v] of Object.entries(obj).filter(([, v]) => v !== null)) {
+			url.searchParams.set(k, String(v)); // overwrite with new values
+		}
+		history.pushState({}, "", url.toString());
+	};
 
 	return (
 		<div class="p-4">
 			<div>
 				<select
 					name="board"
+					value={board ?? ""}
 					class="mr-2 cursor-pointer rounded border border-zinc-700 bg-zinc-950 px-2 py-1 text-xl focus:bg-zinc-900 focus:outline-none"
-					onChange={(e) =>
-						setBoard(e.currentTarget.value !== "" ? (e.currentTarget.value as Paper["board"]) : null)
-					}>
+					onChange={(e) => {
+						setBoard(e.currentTarget.value !== "" ? (e.currentTarget.value as Paper["board"]) : null);
+						pushHistory({ b: e.currentTarget.value });
+					}}>
 					<option value="" selected>
 						Select exam board
 					</option>
@@ -65,16 +102,18 @@ export default function FilterSearch() {
 				</select>
 				<select
 					name="subject"
+					value={subject ?? ""}
 					hidden={board === null}
 					class="mr-2 cursor-pointer rounded border border-zinc-700 bg-zinc-950 px-2 py-1 text-xl focus:bg-zinc-900 focus:outline-none"
-					onChange={(e) =>
-						setSubject(e.currentTarget.value !== "" ? (e.currentTarget.value as Paper["subject"]) : null)
-					}>
+					onChange={(e) => {
+						pushHistory({ s: e.currentTarget.value });
+						setSubject(e.currentTarget.value !== "" ? (e.currentTarget.value as Paper["subject"]) : null);
+					}}>
 					<option value="" selected>
 						Select subject
 					</option>
-					{subjectKeys.map((s) => (
-						<option value={s}>{subjects[s]}</option>
+					{subjectKeys.map((s, i) => (
+						<option value={s}>{subjects[i]}</option>
 					))}
 				</select>
 				{/* <select name="level" onChange={(e) => setLevel(e.currentTarget.value as Paper["level"])}>
@@ -88,12 +127,14 @@ export default function FilterSearch() {
 				<select
 					name="paper"
 					hidden={subject === null}
+					value={papernum ?? ""}
 					class="mr-2 cursor-pointer rounded border border-zinc-700 bg-zinc-950 px-2 py-1 text-xl focus:bg-zinc-900 focus:outline-none"
-					onChange={(e) =>
+					onChange={(e) => {
+						pushHistory({ p: e.currentTarget.value });
 						setPaperNum(
 							e.currentTarget.value !== "" ? (Number(e.currentTarget.value) as Paper["paper"]) : null,
-						)
-					}>
+						);
+					}}>
 					<option value="" selected>
 						Select paper
 					</option>
@@ -108,12 +149,14 @@ export default function FilterSearch() {
 				<select
 					name="difficulty"
 					hidden={subject === null}
+					value={difficulty ?? ""}
 					class="mr-2 cursor-pointer rounded border border-zinc-700 bg-zinc-950 px-2 py-1 text-xl focus:bg-zinc-900 focus:outline-none"
-					onChange={(e) =>
+					onChange={(e) => {
+						pushHistory({ d: e.currentTarget.value });
 						setDifficulty(
 							e.currentTarget.value !== "" ? (e.currentTarget.value as Paper["difficulty"]) : null,
-						)
-					}>
+						);
+					}}>
 					<option value="" selected>
 						Select tier
 					</option>
@@ -125,10 +168,12 @@ export default function FilterSearch() {
 				<select
 					name="year"
 					hidden={subject === null}
+					value={year ?? ""}
 					class="mr-2 cursor-pointer rounded border border-zinc-700 bg-zinc-950 px-2 py-1 text-xl focus:bg-zinc-900 focus:outline-none"
-					onChange={(e) =>
-						setYear(e.currentTarget.value !== "" ? (Number(e.currentTarget.value) as Paper["year"]) : null)
-					}>
+					onChange={(e) => {
+						pushHistory({ y: e.currentTarget.value });
+						setYear(e.currentTarget.value !== "" ? (Number(e.currentTarget.value) as Paper["year"]) : null);
+					}}>
 					<option value="" selected>
 						Select year
 					</option>
@@ -147,7 +192,10 @@ export default function FilterSearch() {
 					hidden={subject === null}
 					value={code ?? ""}
 					placeholder="Enter paper code"
-					onInput={(e) => setCode((e.target as HTMLInputElement).value)}
+					onInput={(e) => {
+						pushHistory({ c: (e.target as HTMLInputElement).value });
+						setCode((e.target as HTMLInputElement).value);
+					}}
 					class="w-96 cursor-text rounded border border-zinc-700 bg-zinc-950 px-2 py-1 text-xl focus:bg-zinc-900 focus:outline-none"
 				/>
 			</div>
