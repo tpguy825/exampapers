@@ -5,5 +5,5 @@ import { schema } from "./schema";
 
 await Bun.write(
 	path.join(__dirname, "../public/papers.schema.json"),
-	JSON.stringify(zodToJsonSchema(z.object({ $schema: z.string().optional(), papers: schema })), null, 2),
+	JSON.stringify(zodToJsonSchema(z.object({ $schema: z.string().optional(), papers: schema })), null, "\t"),
 );

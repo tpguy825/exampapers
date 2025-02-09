@@ -78,7 +78,7 @@ const papers: { papers: z.infer<typeof schema> } = await Bun.file(path.join(__di
 
 papers.papers.push(paper);
 
-await Bun.write(path.join(__dirname, "../public/papers.json"), JSON.stringify(papers, null, 2));
+await Bun.write(path.join(__dirname, "../public/papers.json"), JSON.stringify(papers, null, "\t"));
 
 console.log("Paper added!");
 rl.close();

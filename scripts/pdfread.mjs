@@ -13,15 +13,17 @@ export async function getCodeFromPaper(path) {
 			else if (!item)
 				resolve(results); //console.warn("end of file");
 			else if (!item.text) return;
-			else if (!item.text.trim().startsWith("P")) return// console.log("not start p", item.text);
-			else if (item.text.trim().length !== 7) return// console.log("not 7 chars", item.text);
+			else if (!item.text.trim().startsWith("P"))
+				return; // console.log("not start p", item.text);
+			else if (item.text.trim().length !== 7)
+				return; // console.log("not 7 chars", item.text);
 			else if (
 				!item.text
 					.trim()
 					.slice(1, 6)
 					.match(/^\d{5}$/)
 			)
-				return// console.log("not 5 digits", item.text);
+				return; // console.log("not 5 digits", item.text);
 			else results.push(item.text);
 		});
 	});
