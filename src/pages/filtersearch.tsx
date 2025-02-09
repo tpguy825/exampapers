@@ -1,6 +1,5 @@
 import { type Schema } from "../../scripts/schema";
 import { useEffect, useState } from "preact/hooks";
-import { loadPapers } from "../utils";
 import { subjectKeys, boards, subjects } from "../../scripts/schema-types";
 
 type Paper = Schema[number];
@@ -19,10 +18,17 @@ export default function FilterSearch() {
 
 	useEffect(() => {
 		setLoading(true);
-		loadPapers().then((s) => {
-			setPapers(s.papers);
-			setLoading(false);
-		});
+		fetch("/papers.json")
+			.then(
+				(r) =>
+					r.json() as Promise<{
+						papers: Schema;
+					}>,
+			)
+			.then((s) => {
+				setPapers(s.papers);
+				setLoading(false);
+			});
 	}, []);
 
 	const results = papers.filter((paper) => {
