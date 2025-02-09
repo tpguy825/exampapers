@@ -250,6 +250,7 @@ export default function FilterSearch() {
 					<br />
 					<a
 						href="/request"
+						title="Does nothing right now"
 						class="mt-1 inline-block rounded border border-zinc-700 bg-zinc-950 px-2 py-1 hover:cursor-pointer hover:bg-zinc-900">
 						Request paper
 					</a>
