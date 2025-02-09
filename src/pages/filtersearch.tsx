@@ -39,12 +39,12 @@ export default function FilterSearch() {
 
 				if (url.searchParams.has("y")) {
 					const y = Number(url.searchParams.get("y"));
-					if (papers.map((p) => p.year).includes(y)) setYear(y);
+					if (s.papers.map((p) => p.year).includes(y)) setYear(y);
 				}
 
 				if (url.searchParams.has("p")) {
 					const p = Number(url.searchParams.get("p"));
-					if (papers.map((p) => p.paper).includes(p)) setPaperNum(p);
+					if (s.papers.map((p) => p.paper).includes(p)) setPaperNum(p);
 				}
 			});
 	}, []);
