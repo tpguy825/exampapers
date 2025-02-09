@@ -47,7 +47,7 @@ export default function FilterSearch() {
 
 	return (
 		<div class="p-4">
-			<div class="">
+			<div>
 				<select
 					name="board"
 					class="mr-2 cursor-pointer rounded border border-zinc-700 bg-zinc-950 px-2 py-1 text-xl focus:bg-zinc-900 focus:outline-none"
@@ -152,41 +152,48 @@ export default function FilterSearch() {
 			{loading ? (
 				<p>Loading...</p>
 			) : board === null ? (
-					<div>
-						<p class="text-5xl">Select a board</p>
-						<p class="mt-2">Currently hosting {papers.length} papers</p>
+				<div>
+					<p class="text-5xl">Select a board</p>
+					<p class="mt-2">Currently hosting {papers.length} papers</p>
 				</div>
 			) : subject === null ? (
 				<p class="text-5xl">Select a subject</p>
 			) : results.length > 0 ? (
-				<ul class="mt-4 -ml-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-					{results.map((paper) => (
-						<li key={paper.uid} class="m-2 grid w-auto grid-cols-1 rounded-lg border border-zinc-800 p-2">
-							<span class="inline-block">
-								{paper.board} - {paper.code} - {paper.year}
-							</span>
-							<span class="mb-2 inline-block">
-								{paper.difficulty} - {paper.level} - {paper.subject} - Paper {paper.paper}
-							</span>
-							<div class="mb-1">
-								<a
-									href={paper.paperpdf}
-									target="_blank"
-									rel="noopener noreferrer"
-									class="mr-2 rounded border border-zinc-700 bg-zinc-950 px-2 py-1 hover:cursor-pointer hover:bg-zinc-900">
-									Download Paper
-								</a>
-								<a
-									href={paper.mspdf}
-									target="_blank"
-									rel="noopener noreferrer"
-									class="rounded border border-zinc-700 bg-zinc-950 px-2 py-1 hover:cursor-pointer hover:bg-zinc-900">
-									Download Mark Scheme
-								</a>
-							</div>
-						</li>
-					))}
-				</ul>
+				<div>
+					<span>
+						{results.length} {results.length > 1 ? "results" : "result"}
+					</span>
+					<ul class="mt-4 -ml-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+						{results.map((paper) => (
+							<li
+								key={paper.uid}
+								class="m-2 grid w-auto grid-cols-1 rounded-lg border border-zinc-800 p-2">
+								<span class="inline-block">
+									{paper.board} - {paper.code} - {paper.year}
+								</span>
+								<span class="mb-2 inline-block">
+									{paper.difficulty} - {paper.level} - {paper.subject} - Paper {paper.paper}
+								</span>
+								<div class="mb-1">
+									<a
+										href={paper.paperpdf}
+										target="_blank"
+										rel="noopener noreferrer"
+										class="mr-2 rounded border border-zinc-700 bg-zinc-950 px-2 py-1 hover:cursor-pointer hover:bg-zinc-900">
+										Download Paper
+									</a>
+									<a
+										href={paper.mspdf}
+										target="_blank"
+										rel="noopener noreferrer"
+										class="rounded border border-zinc-700 bg-zinc-950 px-2 py-1 hover:cursor-pointer hover:bg-zinc-900">
+										Download Mark Scheme
+									</a>
+								</div>
+							</li>
+						))}
+					</ul>
+				</div>
 			) : (
 				<div class="mt-4 text-xl">
 					<span class="inline-block">No results</span>
