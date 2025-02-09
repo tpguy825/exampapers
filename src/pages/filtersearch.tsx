@@ -3,6 +3,8 @@ import { useEffect, useState } from "preact/hooks";
 import { subjectKeys, boards, subjects } from "../../scripts/schema-types";
 
 type Paper = Schema[number];
+const hosturl =
+	"https://raw.githubusercontent.com/tpguy825/exampapers/refs/heads/main/public";
 
 export default function FilterSearch() {
 	const [board, setBoard] = useState<Paper["board"] | null>(null);
@@ -176,14 +178,14 @@ export default function FilterSearch() {
 								</span>
 								<div class="mb-1">
 									<a
-										href={paper.paperpdf}
+										href={hosturl + paper.paperpdf}
 										target="_blank"
 										rel="noopener noreferrer"
 										class="mr-2 rounded border border-zinc-700 bg-zinc-950 px-2 py-1 hover:cursor-pointer hover:bg-zinc-900">
 										Download Paper
 									</a>
 									<a
-										href={paper.mspdf}
+										href={hosturl + paper.mspdf}
 										target="_blank"
 										rel="noopener noreferrer"
 										class="rounded border border-zinc-700 bg-zinc-950 px-2 py-1 hover:cursor-pointer hover:bg-zinc-900">
