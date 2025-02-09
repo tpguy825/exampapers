@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { boards, levels, subjectKeys } from "./schema-types";
+import { boards, difficulties, levels, subjectKeys } from "./schema-types";
 
 export type Schema = z.infer<typeof schema>;
 export const schema = z.array(
@@ -11,7 +11,7 @@ export const schema = z.array(
 			.int({ message: "Year must be a number" })
 			.gt(2000, { message: "Year must be greater than 2000" })
 			.lt(2100, { message: "Year must be less than 2100" }),
-		difficulty: z.enum(["higher", "foundation", "na"], { message: "Invalid difficulty" }),
+		difficulty: z.enum(difficulties, { message: "Invalid difficulty" }),
 		level: z.enum(levels, { message: "Invalid level" }), // GCSEs only for now
 		subject: z.enum(subjectKeys, { message: "Invalid subject" }),
 		board: z.enum(boards, { message: "Invalid board" }),

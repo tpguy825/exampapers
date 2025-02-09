@@ -13,20 +13,23 @@ export const subjectKeys = [
 	"comp",
 	"french",
 ] as const;
-export const subjects = {
-	maths: "Maths",
-	english: "English",
-	"bio-c": "Biology (combined)",
-	"bio-s": "Biology (seperate)",
-	"chem-c": "Chemistry (combined)",
-	"chem-s": "Chemistry (seperate)",
-	"phy-c": "Physics (combined)",
-	"phy-s": "Physics (seperate)",
-	comp: "Computer Science",
-	french: "French",
-} as const satisfies Record<(typeof subjectKeys)[number], string>;
+export const subjects = [
+	"Maths",
+	"English",
+	"Biology (combined)",
+	"Biology (seperate)",
+	"Chemistry (combined)",
+	"Chemistry (seperate)",
+	"Physics (combined)",
+	"Physics (seperate)",
+	"Computer Science",
+	"French",
+] as const satisfies string[];
 export type Subjects = typeof subjects;
 export type Subject = (typeof subjectKeys)[number];
 
 export const levels = ["gcse"] as const;
 export type Level = (typeof levels)[number];
+
+export const difficulties = ["higher", "foundation", "na"] as const;
+export type Difficulty = (typeof difficulties)[number];
