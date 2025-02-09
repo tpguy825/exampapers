@@ -11,12 +11,9 @@ export const schema = z.array(
 			.int({ message: "Year must be a number" })
 			.gt(2000, { message: "Year must be greater than 2000" })
 			.lt(2100, { message: "Year must be less than 2100" }),
-		month: z.enum(["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"], {
-			message: "Invalid month, must be 3 lowercase letters",
-		}),
 		difficulty: z.enum(["higher", "foundation", "na"], { message: "Invalid difficulty" }),
 		level: z.enum(levels, { message: "Invalid level" }), // GCSEs only for now
-		subject: z.enum(subjectKeys as [string, ...string[]], { message: "Invalid subject" }),
+		subject: z.enum(subjectKeys, { message: "Invalid subject" }),
 		board: z.enum(boards, { message: "Invalid board" }),
 		paper: z
 			.number({ message: "Paper number must be a number, it's in the name" })

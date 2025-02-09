@@ -11,7 +11,6 @@ export default function FilterSearch() {
 	// const [level, setLevel] = useState<Paper["level"] | null>(null);
 	const [difficulty, setDifficulty] = useState<Paper["difficulty"] | null>(null);
 	const [year, setYear] = useState<Paper["year"] | null>(null);
-	const [month, setMonth] = useState<Paper["month"] | null>(null);
 	const [papernum, setPaperNum] = useState<Paper["paper"] | null>(null);
 	const [code, setCode] = useState<string | null>(null);
 
@@ -27,13 +26,12 @@ export default function FilterSearch() {
 	}, []);
 
 	const results = papers.filter((paper) => {
-		console.log({ board, subject, difficulty, year, month, papernum, code }, paper);
+		console.log({ board, subject, difficulty, year, papernum, code }, paper);
 		if (board !== null && paper.board !== board) return false;
 		if (subject !== null && paper.subject !== subject) return false;
 		// if (level !== null && paper.level !== level) return false;
 		if (difficulty !== null && paper.difficulty !== difficulty) return false;
 		if (year !== null && paper.year !== year) return false;
-		if (month !== null && paper.month !== month) return false;
 		if (papernum !== null && paper.paper !== papernum) return false;
 		if (code !== null && code !== "" && !paper.code.toLowerCase().includes(code.toLowerCase())) return false;
 		return true;
@@ -136,24 +134,6 @@ export default function FilterSearch() {
 						))}
 				</select>
 
-				<select
-					name="month"
-					hidden={subject === null}
-					class="mr-2 cursor-pointer rounded border border-zinc-700 bg-zinc-950 px-2 py-1 text-xl focus:bg-zinc-900 focus:outline-none"
-					onChange={(e) =>
-						setMonth(e.currentTarget.value !== "" ? (e.currentTarget.value as Paper["month"]) : null)
-					}>
-					<option value="" selected>
-						Select month
-					</option>
-					{papers
-						.map((p) => p.month)
-						.filter((v, i, a) => a.indexOf(v) === i)
-						.map((m) => (
-							<option value={m}>{m}</option>
-						))}
-				</select>
-
 				<input
 					type="text"
 					hidden={subject === null}
@@ -166,7 +146,10 @@ export default function FilterSearch() {
 			{loading ? (
 				<p>Loading...</p>
 			) : board === null ? (
-				<p class="text-5xl">Select a board</p>
+					<div>
+						<p class="text-5xl">Select a board</p>
+						<p class="mt-2">Currently hosting {papers.length} papers</p>
+				</div>
 			) : subject === null ? (
 				<p class="text-5xl">Select a subject</p>
 			) : results.length > 0 ? (
@@ -174,7 +157,7 @@ export default function FilterSearch() {
 					{results.map((paper) => (
 						<li key={paper.uid} class="m-2 grid w-auto grid-cols-1 rounded-lg border border-zinc-800 p-2">
 							<span class="inline-block">
-								{paper.board} - {paper.code} - {paper.month} {paper.year}
+								{paper.board} - {paper.code} - {paper.year}
 							</span>
 							<span class="mb-2 inline-block">
 								{paper.difficulty} - {paper.level} - {paper.subject} - Paper {paper.paper}

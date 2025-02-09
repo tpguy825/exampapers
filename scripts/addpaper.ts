@@ -62,7 +62,6 @@ await Bun.write(path.join(__dirname, "../public/papers", `${paperId}-paper.pdf`)
 const paper: Paper = {
 	code: await zodInput("Paper code: ", schema.element.shape.code),
 	year: await zodInput("Year: ", schema.element.shape.year, Number),
-	month: await zodInput("Month: ", schema.element.shape.month),
 	difficulty: await zodInput("Difficulty [higher,foundation,na]: ", schema.element.shape.difficulty),
 	level: await zodInput("Level [gcse]: ", schema.element.shape.level),
 	subject: await zodInput("Subject: ", schema.element.shape.subject),

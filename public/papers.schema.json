@@ -21,23 +21,6 @@
             "exclusiveMinimum": 2000,
             "exclusiveMaximum": 2100
           },
-          "month": {
-            "type": "string",
-            "enum": [
-              "jan",
-              "feb",
-              "mar",
-              "apr",
-              "may",
-              "jun",
-              "jul",
-              "aug",
-              "sep",
-              "oct",
-              "nov",
-              "dec"
-            ]
-          },
           "difficulty": {
             "type": "string",
             "enum": [
@@ -99,7 +82,6 @@
           "uid",
           "code",
           "year",
-          "month",
           "difficulty",
           "level",
           "subject",
