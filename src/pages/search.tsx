@@ -1,6 +1,5 @@
 import { type Schema } from "../../scripts/schema";
 import { useState } from "preact/hooks";
-import { loadPapers } from "../utils";
 import { subjectKeys } from "../../scripts/schema-types";
 
 export default function Search() {
@@ -10,7 +9,12 @@ export default function Search() {
 
 	const searchPapers = async () => {
 		setLoading(true);
-		const papers = await loadPapers();
+		const papers = await fetch("/papers.json").then(
+			(r) =>
+				r.json() as Promise<{
+					papers: Schema;
+				}>,
+		);
 		setResults(
 			papers.papers.filter((paper) => {
 				const searchTerms = search.toLowerCase().trim().split(" ");
