@@ -15,6 +15,7 @@ export async function getCodeFromPaper(path) {
 			else if (!item.text) return;
 			else if (!item.text.trim().startsWith("P"))
 				return; // console.log("not start p", item.text);
+			// fails on revised papers that are 8 due to ending in "RA" instead of "A"
 			else if (item.text.trim().length !== 7)
 				return; // console.log("not 7 chars", item.text);
 			else if (
@@ -31,5 +32,7 @@ export async function getCodeFromPaper(path) {
 	return codes[0];
 }
 
-const __dirname = path.dirname(new URL(import.meta.url).pathname);
+let __dirname = path.dirname(new URL(import.meta.url).pathname);
+// Windows fix (i made this on linux and only just tried it on windows)
+if (process.platform === "win32") __dirname = __dirname.slice(1);
 console.log(await getCodeFromPaper(path.join(__dirname, process.argv[2])));
