@@ -8,7 +8,7 @@ const hosturl = "https://raw.githubusercontent.com/tpguy825/exampapers/refs/head
 function is<T>(a: string | null, b: readonly T[]) {
 	// typecript moment              \/ stupid
 	console.log(a, b, b.includes(a as T));
-	return (a !== null && b.includes(a as T)) ? (a as T) : null;
+	return a !== null && b.includes(a as T) ? (a as T) : null;
 }
 
 export default function FilterSearch() {
@@ -61,6 +61,24 @@ export default function FilterSearch() {
 		return true;
 	});
 
+	type Nullable<T> = { [K in keyof T]: T[K] | null };
+
+	function lengthIfFilterWas(obj: Partial<Nullable<Paper>>) {
+		function isdef<T>(item: T | null | undefined): item is T { return item !== null && item !== undefined; }
+		return papers.filter((paper) => {
+			// i hate this
+			if (isdef(obj.board) && paper.board !== obj.board) return false;
+			if (isdef(obj.subject) && paper.subject !== obj.subject) return false;
+			// if (obj.level !== undefined && paper.level !== obj.level) return false;
+			if (isdef(obj.difficulty) && paper.difficulty !== obj.difficulty) return false;
+			if (isdef(obj.year) && paper.year !== obj.year) return false;
+			if (isdef(obj.paper) && paper.paper !== obj.paper) return false;
+			if (isdef(obj.code) && obj.code !== "" && !paper.code.toLowerCase().includes(obj.code.toLowerCase()))
+				return false;
+			return true;
+		}).length;
+	}
+
 	const pushHistory = (obj: Record<string, string | number>) => {
 		const url = new URL(window.location.href);
 		for (const k of url.searchParams.keys()) {
@@ -97,7 +115,9 @@ export default function FilterSearch() {
 						Select exam board
 					</option>
 					{boards.map((b) => (
-						<option value={b}>{b}</option>
+						<option value={b}>
+							{b} [{lengthIfFilterWas({ board: b })}]
+						</option>
 					))}
 				</select>
 				<select
@@ -113,7 +133,9 @@ export default function FilterSearch() {
 						Select subject
 					</option>
 					{subjectKeys.map((s, i) => (
-						<option value={s}>{subjects[i]}</option>
+						<option value={s}>
+							{subjects[i]} [{lengthIfFilterWas({ subject: s, board })}]
+						</option>
 					))}
 				</select>
 				{/* <select name="level" onChange={(e) => setLevel(e.currentTarget.value as Paper["level"])}>
@@ -126,7 +148,7 @@ export default function FilterSearch() {
 				</select> */}
 				<select
 					name="paper"
-					hidden={subject === null}
+					hidden={subject === null || board === null}
 					value={papernum ?? ""}
 					class="mr-2 cursor-pointer rounded border border-zinc-700 bg-zinc-950 px-2 py-1 text-xl focus:bg-zinc-900 focus:outline-none"
 					onChange={(e) => {
@@ -143,12 +165,12 @@ export default function FilterSearch() {
 						.sort((a, b) => b - a)
 						.filter((v, i, a) => a.indexOf(v) === i)
 						.map((p) => (
-							<option value={p}>Paper {p}</option>
+							<option value={p}>Paper {p} [{lengthIfFilterWas({ paper: p, subject, board })}]</option>
 						))}
 				</select>
 				<select
 					name="difficulty"
-					hidden={subject === null}
+					hidden={subject === null || board === null}
 					value={difficulty ?? ""}
 					class="mr-2 cursor-pointer rounded border border-zinc-700 bg-zinc-950 px-2 py-1 text-xl focus:bg-zinc-900 focus:outline-none"
 					onChange={(e) => {
@@ -160,14 +182,14 @@ export default function FilterSearch() {
 					<option value="" selected>
 						Select tier
 					</option>
-					<option value="higher">Higher</option>
-					<option value="foundation">Foundation</option>
-					<option value="na">N/A</option>
+					<option value="higher">Higher [{lengthIfFilterWas({ difficulty: "higher", subject, board, paper: papernum })}]</option>
+					<option value="foundation">Foundation [{lengthIfFilterWas({ difficulty: "foundation", subject, board, paper: papernum })}]</option>
+					{/* <option value="na">N/A</option> */}
 				</select>
 
 				<select
 					name="year"
-					hidden={subject === null}
+					hidden={subject === null || board === null}
 					value={year ?? ""}
 					class="mr-2 cursor-pointer rounded border border-zinc-700 bg-zinc-950 px-2 py-1 text-xl focus:bg-zinc-900 focus:outline-none"
 					onChange={(e) => {
@@ -183,13 +205,13 @@ export default function FilterSearch() {
 						.sort((a, b) => b - a)
 						.filter((v, i, a) => a.indexOf(v) === i)
 						.map((y) => (
-							<option value={y}>{y}</option>
+							<option value={y}>{y} [{lengthIfFilterWas({ year: y, subject, board, paper: papernum, difficulty })}]</option>
 						))}
 				</select>
 
 				<input
 					type="text"
-					hidden={subject === null}
+					hidden={subject === null || board === null}
 					value={code ?? ""}
 					placeholder="Enter paper code"
 					onInput={(e) => {
