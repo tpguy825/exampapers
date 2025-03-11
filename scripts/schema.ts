@@ -24,5 +24,7 @@ export const schema = z.array(
 		mspdfUrl: z.string({ message: "Invalid URL" }).url({ message: "Invalid URL" }), // Source of the mark scheme
 		paperpdf: z.string({ message: "Invalid URL" }), // Local URL of the paper
 		mspdf: z.string({ message: "Invalid URL" }), // Local URL of the mark scheme
+		inspdfUrl: z.string({ message: "Invalid URL" }).url({ message: "Invalid URL" }).optional(), // Source of the insert
+		inspdf: z.string({ message: "Invalid URL" }).optional(), // Local URL of the insert
 	}),
 );

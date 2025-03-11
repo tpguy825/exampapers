@@ -12,6 +12,7 @@ export const subjectKeys = [
 	"phy-s",
 	"comp",
 	"french",
+	"geo",
 ] as const;
 export const subjects = [
 	"Maths",
@@ -24,6 +25,7 @@ export const subjects = [
 	"Physics (seperate)",
 	"Computer Science",
 	"French",
+	"Geography",
 ] as const satisfies string[];
 export type Subjects = typeof subjects;
 export type Subject = (typeof subjectKeys)[number];

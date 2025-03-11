@@ -37,7 +37,7 @@ function input(
 function zodInput<T extends z.ZodType>(
 	prompt: string,
 	schema: T,
-	coercer: (e: any) => any = (e) => e,
+	coercer: (e: string) => z.infer<T> = (e) => e,
 ): Promise<z.infer<T>> {
 	return input(prompt, (data) => {
 		const coerced = coercer(data);
@@ -47,17 +47,33 @@ function zodInput<T extends z.ZodType>(
 	});
 }
 
+function coerceOptional(e: string) {
+	if (e.trim() === "") return undefined;
+	return e;
+}
+
 const mspdfUrl = await zodInput("Mark Scheme PDF URL: ", schema.element.shape.mspdfUrl);
 const paperpdfUrl = await zodInput("Paper PDF URL: ", schema.element.shape.paperpdfUrl);
+const inspdfUrl = await zodInput("Insert PDF URL (optional): ", schema.element.shape.inspdfUrl, coerceOptional).catch(() => null);
 
 const mspdf = await fetch(mspdfUrl).then((r) => r.blob());
 const paperpdf = await fetch(paperpdfUrl).then((r) => r.blob());
+let inspdf: Blob | null = null;
+if (inspdfUrl) {
+	inspdf = await fetch(inspdfUrl).then((r) => r.blob());
+} else {
+	console.log("Skipping insert as it was not provided");
+}
+	
 
 const paperId = ulid();
 console.log("Writing with id", paperId);
 
 await Bun.write(path.join(__dirname, "../public/papers", `${paperId}-ms.pdf`), mspdf);
 await Bun.write(path.join(__dirname, "../public/papers", `${paperId}-paper.pdf`), paperpdf);
+if (inspdf) {
+	await Bun.write(path.join(__dirname, "../public/papers", `${paperId}-ins.pdf`), inspdf);
+}
 
 const paper: Paper = {
 	code: await zodInput("Paper code: ", schema.element.shape.code),
@@ -69,8 +85,10 @@ const paper: Paper = {
 	paper: await zodInput("Paper number (e.g. paper 1, paper 2): ", schema.element.shape.paper, Number),
 	paperpdfUrl,
 	mspdfUrl,
+	inspdfUrl: inspdfUrl || undefined,
 	paperpdf: "/papers/" + paperId + "-paper.pdf",
 	mspdf: "/papers/" + paperId + "-ms.pdf",
+	inspdf: inspdf ? "/papers/" + paperId + "-ins.pdf" : undefined,
 	uid: paperId,
 };
 
