@@ -184,7 +184,7 @@ export default function FilterSearch() {
 					</option>
 					<option value="higher">Higher [{lengthIfFilterWas({ difficulty: "higher", subject, board, paper: papernum })}]</option>
 					<option value="foundation">Foundation [{lengthIfFilterWas({ difficulty: "foundation", subject, board, paper: papernum })}]</option>
-					{/* <option value="na">N/A</option> */}
+					<option value="na">N/A</option>
 				</select>
 
 				<select
