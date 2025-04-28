@@ -1800,6 +1800,62 @@
 			"mspdf": "/papers/01JNXYQ8ETEGVX5HGNSCW66FBW-ms.pdf",
 			"inspdf": "/papers/01JNXYQ8ETEGVX5HGNSCW66FBW-ins.pdf",
 			"uid": "01JNXYQ8ETEGVX5HGNSCW66FBW"
+		},
+		{
+			"code": "P74423A",
+			"year": 2024,
+			"difficulty": "higher",
+			"level": "gcse",
+			"subject": "chem-s",
+			"board": "edexcel",
+			"paper": 1,
+			"paperpdfUrl": "http://example.com",
+			"mspdfUrl": "http://example.com",
+			"paperpdf": "/papers/01JSZ8VD6FS3545TZACGW4KHQ8-paper.pdf",
+			"mspdf": "/papers/01JSZ8VD6FS3545TZACGW4KHQ8-ms.pdf",
+			"uid": "01JSZ8VD6FS3545TZACGW4KHQ8"
+		},
+		{
+			"code": "P74426A",
+			"year": 2024,
+			"difficulty": "higher",
+			"level": "gcse",
+			"subject": "chem-s",
+			"board": "edexcel",
+			"paper": 2,
+			"paperpdfUrl": "https://example.com",
+			"mspdfUrl": "https://example.com",
+			"paperpdf": "/papers/01JSZ954X438MZ8NFACCBHG82Y-paper.pdf",
+			"mspdf": "/papers/01JSZ954X438MZ8NFACCBHG82Y-ms.pdf",
+			"uid": "01JSZ954X438MZ8NFACCBHG82Y"
+		},
+		{
+			"code": "P74421A",
+			"year": 2024,
+			"difficulty": "foundation",
+			"level": "gcse",
+			"subject": "chem-s",
+			"board": "edexcel",
+			"paper": 1,
+			"paperpdfUrl": "http://example.com",
+			"mspdfUrl": "http://example.com",
+			"paperpdf": "/papers/01JSZ9X31VK1CJTVG0JKTTWS5Z-paper.pdf",
+			"mspdf": "/papers/01JSZ9X31VK1CJTVG0JKTTWS5Z-ms.pdf",
+			"uid": "01JSZ9X31VK1CJTVG0JKTTWS5Z"
+		},
+		{
+			"code": "P74425A",
+			"year": 2024,
+			"difficulty": "foundation",
+			"level": "gcse",
+			"subject": "chem-s",
+			"board": "edexcel",
+			"paper": 2,
+			"paperpdfUrl": "http://example.com",
+			"mspdfUrl": "http://example.com",
+			"paperpdf": "/papers/01JSZA0E4M7SF6T5QHWPGAF3QE-paper.pdf",
+			"mspdf": "/papers/01JSZA0E4M7SF6T5QHWPGAF3QE-ms.pdf",
+			"uid": "01JSZA0E4M7SF6T5QHWPGAF3QE"
 		}
 	]
 }
