@@ -10,7 +10,7 @@
 	},
 	"dependencies": {
 		"@tailwindcss/vite": "^4.1.11",
-		"preact": "^10.27.0",
+		"preact": "^10.27.1",
 		"preact-iso": "^2.9.2",
 		"tailwindcss": "^4.1.11",
 		"zod": "^4.0.13"
