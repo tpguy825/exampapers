@@ -13,7 +13,7 @@
 		"preact": "^10.27.1",
 		"preact-iso": "^2.9.2",
 		"tailwindcss": "^4.1.11",
-		"zod": "^4.0.13"
+		"zod": "^4.0.17"
 	},
 	"devDependencies": {
 		"@preact/preset-vite": "^2.10.2",
