@@ -17,7 +17,7 @@
 	},
 	"devDependencies": {
 		"@preact/preset-vite": "^2.10.2",
-		"@types/bun": "^1.2.19",
+		"@types/bun": "^1.2.20",
 		"install": "^0.13.0",
 		"pdfreader": "^3.0.7",
 		"prettier": "^3.6.2",
